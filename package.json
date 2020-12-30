@@ -1,0 +1,19 @@
+{
+  "name": "uptask",
+  "version": "1.0.0",
+  "description": "Protecto UpTask con Node y MVC",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "dev": "nodemon ."
+  },
+  "author": "Paul Chávez",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "pug": "^3.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
