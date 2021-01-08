@@ -3,6 +3,18 @@ const routes = require('./routes');
 const path = require('path');
 const bodyParser = require('body-parser');
 
+// Crear la conexión a la base de datos
+const db = require('./config/db');
+
+// Importar el Modelo
+require('./models/Proyectos');
+
+db.sync()
+    .then(() => {
+        console.log('Conectado a la base de datos');
+    })
+    .catch(console.error);
+
 const app = express();
 
 // Cargar archivos estaticos

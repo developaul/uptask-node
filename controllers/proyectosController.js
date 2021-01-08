@@ -1,3 +1,5 @@
+const Proyectos = require('../models/Proyectos');
+
 exports.proyectosHome = (req, res) => {
 
     res.render('index', {
@@ -14,14 +16,14 @@ exports.formularioProyecto = (req, res) => {
 
 }
 
-exports.nuevoProyecto = (req, res) => {
+exports.nuevoProyecto = async (req, res) => {
 
     const { nombre } = req.body;
 
+    // Validar
     let errores = [];
 
-    // Validar
-    if (!nombre.trim()) errores.push({ 'texto': 'Agrega un nombre al proyecto' });
+    if (!nombre.trim()) errores.push({ texto: 'Agrega un nombre al proyecto' });
 
     if (errores.length) return res.render('nuevoProyecto', {
         nombrePagina: 'Nuevo Proyecto',
@@ -29,5 +31,14 @@ exports.nuevoProyecto = (req, res) => {
     });
 
     // Insertar en la Base de datos
+    try {
 
+        await Proyectos.create({ nombre });
+        res.redirect('/');
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
 }
