@@ -33,7 +33,10 @@ exports.nuevoProyecto = async (req, res) => {
     // Insertar en la Base de datos
     try {
 
-        await Proyectos.create({ nombre });
+        await Proyectos.create({
+            nombre: nombre.trim()
+        });
+
         res.redirect('/');
 
     } catch (error) {
