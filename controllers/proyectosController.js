@@ -1,22 +1,30 @@
 const Proyectos = require('../models/Proyectos');
 
-exports.proyectosHome = (req, res) => {
+exports.proyectosHome = async (req, res) => {
+
+    const proyectos = await Proyectos.findAll();
 
     res.render('index', {
-        nombrePagina: 'Proyectos'
+        nombrePagina: 'Proyectos',
+        proyectos
     });
 
 }
 
-exports.formularioProyecto = (req, res) => {
+exports.formularioProyecto = async (req, res) => {
+
+    const proyectos = await Proyectos.findAll();
 
     res.render('nuevoProyecto', {
-        nombrePagina: 'Nuevo Proyecto'
+        nombrePagina: 'Nuevo Proyecto',
+        proyectos
     });
 
 }
 
 exports.nuevoProyecto = async (req, res) => {
+
+    const proyectos = await Proyectos.findAll();
 
     const { nombre } = req.body;
 
@@ -27,7 +35,8 @@ exports.nuevoProyecto = async (req, res) => {
 
     if (errores.length) return res.render('nuevoProyecto', {
         nombrePagina: 'Nuevo Proyecto',
-        errores
+        errores,
+        proyectos
     });
 
     // Insertar en la Base de datos
@@ -44,4 +53,22 @@ exports.nuevoProyecto = async (req, res) => {
         console.error(error);
 
     }
+}
+
+exports.proyectoPorUrl = async (req, res, next) => {
+    const proyecto = await Proyectos.findOne({
+        where: {
+            url: req.params.url
+        }
+    });
+
+    if (!proyecto) return next();
+
+    const proyectos = await Proyectos.findAll();
+
+    res.render('tareas', {
+        nombrePagina: 'Tareas del Proyecto',
+        proyecto,
+        proyectos
+    });
 }

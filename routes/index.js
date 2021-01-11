@@ -16,5 +16,8 @@ module.exports = function () {
         proyectosController.nuevoProyecto
     );
 
+    // Listar Proyecto
+    router.get('/proyectos/:url', proyectosController.proyectoPorUrl);
+
     return router;
 }
