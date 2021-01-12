@@ -56,19 +56,73 @@ exports.nuevoProyecto = async (req, res) => {
 }
 
 exports.proyectoPorUrl = async (req, res, next) => {
-    const proyecto = await Proyectos.findOne({
-        where: {
-            url: req.params.url
-        }
-    });
+
+    const [proyectos, proyecto] = await Promise.all([
+        Proyectos.findAll(),
+        Proyectos.findOne({
+            where: {
+                url: req.params.url
+            }
+        })
+    ]);
 
     if (!proyecto) return next();
-
-    const proyectos = await Proyectos.findAll();
 
     res.render('tareas', {
         nombrePagina: 'Tareas del Proyecto',
         proyecto,
         proyectos
     });
+}
+
+exports.formularioEditar = async (req, res) => {
+
+    const [proyectos, proyecto] = await Promise.all([
+        Proyectos.findAll(),
+        Proyectos.findOne({
+            where: {
+                id: req.params.id
+            }
+        })
+    ]);
+
+    res.render('nuevoProyecto', {
+        nombrePagina: 'Editar Proyecto',
+        proyectos,
+        proyecto
+    });
+}
+
+exports.actualizarProyecto = async (req, res) => {
+
+    const proyectos = await Proyectos.findAll();
+
+    const { nombre } = req.body;
+
+    // Validar
+    let errores = [];
+
+    if (!nombre.trim()) errores.push({ texto: 'Agrega un nombre al proyecto' });
+
+    if (errores.length) return res.render('nuevoProyecto', {
+        nombrePagina: 'Nuevo Proyecto',
+        errores,
+        proyectos
+    });
+
+    // Actualizando en la Base de datos
+    try {
+
+        await Proyectos.update(
+            { nombre: nombre.trim() },
+            { where: { id: req.params.id } }
+        );
+
+        res.redirect('/');
+
+    } catch (error) {
+
+        console.error(error);
+
+    }
 }

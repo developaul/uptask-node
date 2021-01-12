@@ -102,6 +102,7 @@ body {
     float: right;
     background-color: red !important;
     color: white;
+    font-size: 0.9rem;
 }
 .campo a {
     color: black;
