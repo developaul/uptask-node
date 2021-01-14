@@ -322,7 +322,7 @@ eval("var __WEBPACK_AMD_DEFINE_FACTORY__, __WEBPACK_AMD_DEFINE_RESULT__;function
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
-eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modulos_proyectos__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modulos/proyectos */ \"./public/js/modulos/proyectos.js\");\n\n\n//# sourceURL=webpack://uptask/./public/js/app.js?");
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _modulos_proyectos__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modulos/proyectos */ \"./public/js/modulos/proyectos.js\");\n/* harmony import */ var _modulos_tareas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modulos/tareas */ \"./public/js/modulos/tareas.js\");\n\n\n\n//# sourceURL=webpack://uptask/./public/js/app.js?");
 
 /***/ }),
 
@@ -334,6 +334,17 @@ eval("__webpack_require__.r(__webpack_exports__);\n/* harmony import */ var _mod
 
 "use strict";
 eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! sweetalert2 */ \"./node_modules/sweetalert2/dist/sweetalert2.all.js\");\n/* harmony import */ var sweetalert2__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(sweetalert2__WEBPACK_IMPORTED_MODULE_0__);\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);\n\n\nvar btnEliminar = document.querySelector('#eliminar-proyecto');\nif (btnEliminar) btnEliminar.addEventListener('click', function (e) {\n  var urlProyecto = e.target.dataset.proyectoUrl;\n  sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({\n    title: '¿Deseas borrar este proyecto?',\n    text: \"Un proyecto eliminado no se puede recuperar\",\n    icon: 'warning',\n    showCancelButton: true,\n    confirmButtonColor: '#3085d6',\n    cancelButtonColor: '#d33',\n    confirmButtonText: 'Si, Borrar',\n    cancelButtonText: 'No, Cancelar'\n  }).then(function (result) {\n    if (result.isConfirmed) {\n      var url = \"\".concat(location.origin, \"/proyectos/\").concat(urlProyecto); // Enviar petición\n\n      axios__WEBPACK_IMPORTED_MODULE_1___default().delete(url, {\n        params: {\n          urlProyecto: urlProyecto\n        }\n      }).then(function (res) {\n        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire('Proyecto Eliminado!', res.data, 'success');\n        setTimeout(function () {\n          window.location.href = '/';\n        }, 3000);\n      })[\"catch\"](function () {\n        sweetalert2__WEBPACK_IMPORTED_MODULE_0___default().fire({\n          icon: 'error',\n          title: 'Hubo un error',\n          text: 'No se puedo eliminar el proyecto'\n        });\n      });\n    }\n  });\n});\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (btnEliminar);\n\n//# sourceURL=webpack://uptask/./public/js/modulos/proyectos.js?");
+
+/***/ }),
+
+/***/ "./public/js/modulos/tareas.js":
+/*!*************************************!*\
+  !*** ./public/js/modulos/tareas.js ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+eval("__webpack_require__.r(__webpack_exports__);\n/* harmony export */ __webpack_require__.d(__webpack_exports__, {\n/* harmony export */   \"default\": () => __WEBPACK_DEFAULT_EXPORT__\n/* harmony export */ });\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ \"./node_modules/axios/index.js\");\n/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);\n\nvar tareas = document.querySelector('.listado-pendientes');\nif (tareas) tareas.addEventListener('click', function (_ref) {\n  var target = _ref.target;\n\n  if (target.classList.contains('fa-check-circle')) {\n    var idTarea = target.parentElement.parentElement.dataset.tarea;\n    var url = \"\".concat(location.origin, \"/tareas/\").concat(idTarea);\n    axios__WEBPACK_IMPORTED_MODULE_0___default().patch(url, {\n      idTarea: idTarea\n    }).then(function (res) {\n      if (res.status === 200) target.classList.toggle('completo');\n    });\n  }\n});\n/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (tareas);\n\n//# sourceURL=webpack://uptask/./public/js/modulos/tareas.js?");
 
 /***/ })
 

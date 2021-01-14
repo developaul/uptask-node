@@ -21,3 +21,18 @@ exports.agregarTarea = async (req, res, next) => {
     // Redireccionar
     res.redirect(`/proyectos/${req.params.url}`);
 }
+
+exports.cambiarEstadoTarea = async (req, res, next) => {
+
+    const { id } = req.params;
+    const tarea = await Tareas.findOne({ where: { id } });
+
+    tarea.estado = (tarea.estado === 0) ? 1 : 0;
+
+    // Actualizar
+    const resultado = await tarea.save();
+
+    if (!resultado) return next();
+
+    res.status(200).send('Actualizado');
+}
