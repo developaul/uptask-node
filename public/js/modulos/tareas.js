@@ -1,6 +1,8 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+import { actualizarAvance } from '../functions/avance';
+
 const tareas = document.querySelector('.listado-pendientes');
 
 if (tareas) tareas.addEventListener('click', ({ target }) => {
@@ -13,7 +15,10 @@ if (tareas) tareas.addEventListener('click', ({ target }) => {
 
         axios.patch(url, { idTarea })
             .then(res => {
-                if (res.status === 200) target.classList.toggle('completo');
+                if (res.status === 200) {
+                    target.classList.toggle('completo');
+                    actualizarAvance();
+                }
             });
     }
 
@@ -49,6 +54,8 @@ if (tareas) tareas.addEventListener('click', ({ target }) => {
                                 res.data,
                                 'success'
                             );
+
+                            actualizarAvance();
                         }
                     });
             }
